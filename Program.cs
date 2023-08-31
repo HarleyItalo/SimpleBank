@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using SimpleBank.Context;
 using SimpleBank.Repositories.AccountRepository;
 using SimpleBank.Repositories.TransactionRepository;
@@ -6,10 +8,13 @@ using SimpleBank.Usercases.CreateCreditTransaction;
 using SimpleBank.Usercases.CreateDebitTransaction;
 using SimpleBank.Usercases.GetAccountById;
 using SimpleBank.Usercases.GetBalanceFromAccountId;
+using SimpleBank.Usercases.TransactionsByUser;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>{
+    options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -25,6 +30,7 @@ builder.Services.AddScoped<ICreateCreditTransaction,CreateCreditTransactionImpl>
 builder.Services.AddScoped<ICreateDebitTransaction,CreateDebitTransactionImpl>();
 builder.Services.AddScoped<IGetBalanceFromAccountId,GetBalanceFromAccountIdImpl>();
 builder.Services.AddScoped<ICreateAccount,CreateAccountImpl>();
+builder.Services.AddScoped<ITransactionsByUser,TransactionsByUserImpl>();
 
 var app = builder.Build();
 
