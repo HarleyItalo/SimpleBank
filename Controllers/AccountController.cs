@@ -29,7 +29,7 @@ public class AccountController : ControllerBase
         if(account != null)
            return Ok(account);
         
-        return NotFound(new BaseResponse(404,Messages.NOT_FOUND));
+        return NotFound(new BaseResponseViewModel(404,Messages.NOT_FOUND));
     }
 
     [HttpPost("Create")]
@@ -39,8 +39,8 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> CreateAccount(CreateAccountViewModel createAccount){
        var response = await _createAccount.Create(createAccount);
        if(response != null){
-            return Ok(new BaseResponse(200,Messages.ACCOUNT_CREATED));
+            return Ok(new BaseResponseViewModel(200,Messages.ACCOUNT_CREATED));
        }
-       return BadRequest(new BaseResponse(400,Messages.INVALID_REQUEST));
+       return BadRequest(new BaseResponseViewModel(400,Messages.INVALID_REQUEST));
     }
 }

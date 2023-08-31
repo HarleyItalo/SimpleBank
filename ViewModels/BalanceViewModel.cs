@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SimpleBank.ViewModels
 {
-    public class BalanceViewModel : BaseResponse
+    public class BalanceViewModel : BaseResponseViewModel
     {
         public BalanceViewModel(int status, string message,double balance) : base(status, message)
         {
