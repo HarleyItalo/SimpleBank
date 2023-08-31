@@ -14,29 +14,38 @@ public class TransactionsController : ControllerBase
     {
         getAccountById = accountById;
     }
-    
+
     [HttpGet("ByUser/{accountId}")]
-    public async Task<IActionResult> TransactionsByUser(int accountId){
+    public async Task<IActionResult> TransactionsByUser(int accountId)
+    {
         var account = await getAccountById.GetAccount(accountId);
-        if(account == null)
-           return NotFound();
+        if (account == null)
+            return NotFound();
 
         return NotFound();
     }
 
     [HttpPost("Credit")]
-    public async Task<IActionResult> Credit(Transaction transaction){
+    public async Task<IActionResult> Credit(Transaction transaction)
+    {
         return BadRequest();
     }
 
-    
+
     [HttpPost("Debit")]
-    public async Task<IActionResult> Debit(Transaction transaction){
+    public async Task<IActionResult> Debit(Transaction transaction)
+    {
         return BadRequest();
     }
 
     [HttpGet("balance/{id}")]
-    public async Task<IActionResult> Balance(int id){
+    public async Task<IActionResult> Balance(int accountId)
+    {
+        var account = await getAccountById.GetAccount(accountId);
+        if (account == null)
+            return NotFound();
+        
+        
         return BadRequest();
     }
 }
