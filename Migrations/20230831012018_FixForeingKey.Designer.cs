@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimpleBank.Context;
 
@@ -10,9 +11,11 @@ using SimpleBank.Context;
 namespace SimpleBank.Migrations
 {
     [DbContext(typeof(SimpleBankDbContext))]
-    partial class SimpleBankDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230831012018_FixForeingKey")]
+    partial class FixForeingKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");

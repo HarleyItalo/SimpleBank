@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using SimpleBank.Models.ValueObjects;
 
@@ -12,5 +14,8 @@ namespace SimpleBank.Models
         public double Value { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public int AccoutId { get; set; }
+        public Account? Accout { get; set; }
     }
 }

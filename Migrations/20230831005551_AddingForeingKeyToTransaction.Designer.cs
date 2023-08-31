@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimpleBank.Context;
 
@@ -10,9 +11,11 @@ using SimpleBank.Context;
 namespace SimpleBank.Migrations
 {
     [DbContext(typeof(SimpleBankDbContext))]
-    partial class SimpleBankDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230831005551_AddingForeingKeyToTransaction")]
+    partial class AddingForeingKeyToTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -42,6 +45,9 @@ namespace SimpleBank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("AccountAccoutId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("AccoutId")
                         .HasColumnType("INTEGER");
 
@@ -56,20 +62,16 @@ namespace SimpleBank.Migrations
 
                     b.HasKey("TransactionId");
 
-                    b.HasIndex("AccoutId");
+                    b.HasIndex("AccountAccoutId");
 
                     b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("SimpleBank.Models.Transaction", b =>
                 {
-                    b.HasOne("SimpleBank.Models.Account", "Accout")
+                    b.HasOne("SimpleBank.Models.Account", null)
                         .WithMany("Transactions")
-                        .HasForeignKey("AccoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Accout");
+                        .HasForeignKey("AccountAccoutId");
                 });
 
             modelBuilder.Entity("SimpleBank.Models.Account", b =>
