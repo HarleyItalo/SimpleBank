@@ -12,8 +12,9 @@ using SimpleBank.Usercases.TransactionsByUser;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers().AddJsonOptions(options =>{
-    options.JsonSerializerOptions.Converters.Add( new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.Converters.Add(
+         new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
