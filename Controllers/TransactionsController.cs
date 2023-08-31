@@ -1,7 +1,10 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
 using SimpleBank.Models;
+using SimpleBank.Usercases.CreateCreditTransaction;
+using SimpleBank.Usercases.CreateDebitTransaction;
 using SimpleBank.Usercases.GetAccountById;
+using SimpleBank.ViewModels;
 
 namespace SimpleBank.Controllers;
 
@@ -9,16 +12,23 @@ namespace SimpleBank.Controllers;
 [Route("[controller]")]
 public class TransactionsController : ControllerBase
 {
-    private readonly IGetAccountById getAccountById;
-    public TransactionsController(IGetAccountById accountById)
+    private readonly IGetAccountById _getAccountById;
+    private readonly ICreateDebitTransaction _createDebitTransaction;
+    private readonly ICreateCreditTransaction _createCreditTransaction;
+    public TransactionsController(
+        IGetAccountById accountById,
+        ICreateDebitTransaction createDebitTransaction,
+        ICreateCreditTransaction createCreditTransaction)
     {
-        getAccountById = accountById;
+        _getAccountById = accountById;
+        _createDebitTransaction = createDebitTransaction;
+        _createCreditTransaction = createCreditTransaction;
     }
 
     [HttpGet("ByUser/{accountId}")]
     public async Task<IActionResult> TransactionsByUser(int accountId)
     {
-        var account = await getAccountById.GetAccount(accountId);
+        var account = await _getAccountById.GetAccount(accountId);
         if (account == null)
             return NotFound();
 
@@ -26,26 +36,36 @@ public class TransactionsController : ControllerBase
     }
 
     [HttpPost("Credit")]
-    public async Task<IActionResult> Credit(Transaction transaction)
+    public async Task<IActionResult> Credit(TransactionViewModel transaction)
     {
-        return BadRequest();
+        var response = await _createCreditTransaction.Create(transaction);
+        if (response.Item1)
+            return Ok(new BaseResponse(200, response.Item2));
+
+        return BadRequest(new BaseResponse(400, response.Item2));
     }
 
-
     [HttpPost("Debit")]
-    public async Task<IActionResult> Debit(Transaction transaction)
+    [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
+
+    public async Task<IActionResult> Debit(TransactionViewModel transaction)
     {
-        return BadRequest();
+        var response = await _createDebitTransaction.Create(transaction);
+        if (response.Item1)
+            return Ok(new BaseResponse(200, response.Item2));
+
+        return BadRequest(new BaseResponse(400, response.Item2));
     }
 
     [HttpGet("balance/{id}")]
     public async Task<IActionResult> Balance(int accountId)
     {
-        var account = await getAccountById.GetAccount(accountId);
+        var account = await _getAccountById.GetAccount(accountId);
         if (account == null)
             return NotFound();
-        
-        
+
+
         return BadRequest();
     }
 }

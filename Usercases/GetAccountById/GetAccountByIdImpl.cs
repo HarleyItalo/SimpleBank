@@ -5,10 +5,10 @@ namespace SimpleBank.Usercases.GetAccountById
 {
     public class GetAccountByIdImpl : IGetAccountById
     {
-        private readonly IAccountRepository repository;
-        public GetAccountByIdImpl(IAccountRepository _repository)
+        private readonly IAccountRepository _repository;
+        public GetAccountByIdImpl(IAccountRepository repository)
         {
-            repository = _repository;
+            _repository = repository;
         }
 
         public async Task<Account?> GetAccount(int id)
@@ -17,7 +17,7 @@ namespace SimpleBank.Usercases.GetAccountById
             {
                 return null;
             }
-            var account = await repository.GetAccountById(id);
+            var account = await _repository.GetAccountById(id);
             return account;
         }
     }
