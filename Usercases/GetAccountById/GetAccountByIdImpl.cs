@@ -1,5 +1,7 @@
+using SimpleBank.Constants;
 using SimpleBank.Models;
 using SimpleBank.Repositories.AccountRepository;
+using SimpleBank.ViewModels;
 
 namespace SimpleBank.Usercases.GetAccountById
 {
@@ -11,14 +13,14 @@ namespace SimpleBank.Usercases.GetAccountById
             _repository = repository;
         }
 
-        public async Task<Account?> GetAccount(int id)
+        public async Task<Tuple<bool, AccountViewModel?>> GetAccount(int accountId)
         {
-            if (id == 0)
+            if (accountId == 0)
             {
-                return null;
+                return new (false,null);
             }
-            var account = await _repository.GetAccountById(id);
-            return account;
+            var account = await _repository.GetAccountById(accountId);
+            return new(true, new AccountViewModel(200,Messages.REQUEST_OK,account));
         }
     }
 }

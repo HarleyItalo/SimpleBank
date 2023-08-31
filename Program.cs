@@ -1,6 +1,7 @@
 using SimpleBank.Context;
 using SimpleBank.Repositories.AccountRepository;
 using SimpleBank.Repositories.TransactionRepository;
+using SimpleBank.Usercases.CreateAccount;
 using SimpleBank.Usercases.CreateCreditTransaction;
 using SimpleBank.Usercases.CreateDebitTransaction;
 using SimpleBank.Usercases.GetAccountById;
@@ -23,6 +24,7 @@ builder.Services.AddScoped<IGetAccountById,GetAccountByIdImpl>();
 builder.Services.AddScoped<ICreateCreditTransaction,CreateCreditTransactionImpl>();
 builder.Services.AddScoped<ICreateDebitTransaction,CreateDebitTransactionImpl>();
 builder.Services.AddScoped<IGetBalanceFromAccountId,GetBalanceFromAccountIdImpl>();
+builder.Services.AddScoped<ICreateAccount,CreateAccountImpl>();
 
 var app = builder.Build();
 

@@ -1,9 +1,11 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
+using SimpleBank.Constants;
 using SimpleBank.Models;
 using SimpleBank.Usercases.CreateCreditTransaction;
 using SimpleBank.Usercases.CreateDebitTransaction;
 using SimpleBank.Usercases.GetAccountById;
+using SimpleBank.Usercases.GetBalanceFromAccountId;
 using SimpleBank.ViewModels;
 
 namespace SimpleBank.Controllers;
@@ -12,27 +14,23 @@ namespace SimpleBank.Controllers;
 [Route("[controller]")]
 public class TransactionsController : ControllerBase
 {
-    private readonly IGetAccountById _getAccountById;
     private readonly ICreateDebitTransaction _createDebitTransaction;
     private readonly ICreateCreditTransaction _createCreditTransaction;
+    private readonly IGetBalanceFromAccountId _getBalanceFromAccountId;
     public TransactionsController(
-        IGetAccountById accountById,
         ICreateDebitTransaction createDebitTransaction,
-        ICreateCreditTransaction createCreditTransaction)
+        ICreateCreditTransaction createCreditTransaction,
+        IGetBalanceFromAccountId getBalanceFromAccountId)
     {
-        _getAccountById = accountById;
         _createDebitTransaction = createDebitTransaction;
         _createCreditTransaction = createCreditTransaction;
+        _getBalanceFromAccountId = getBalanceFromAccountId;
     }
 
     [HttpGet("ByUser/{accountId}")]
     public async Task<IActionResult> TransactionsByUser(int accountId)
     {
-        var account = await _getAccountById.GetAccount(accountId);
-        if (account == null)
-            return NotFound();
-
-        return NotFound();
+        throw new NotImplementedException();
     }
 
     [HttpPost("Credit")]
@@ -58,14 +56,12 @@ public class TransactionsController : ControllerBase
         return BadRequest(new BaseResponse(400, response.Item2));
     }
 
-    [HttpGet("balance/{id}")]
+    [HttpGet("balance/{accountId}")]
+    [ProducesResponseType(typeof(BalanceViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Balance(int accountId)
     {
-        var account = await _getAccountById.GetAccount(accountId);
-        if (account == null)
-            return NotFound();
-
-
-        return BadRequest();
+        var balance = await _getBalanceFromAccountId.GetBalance(accountId);
+        
+        return Ok(new BalanceViewModel(200,Messages.REQUEST_OK,balance));
     }
 }
