@@ -1,6 +1,5 @@
 using SimpleBank.Context;
 using SimpleBank.Models;
-using SimpleBank.ViewModels;
 
 namespace SimpleBank.Repositories.AccountRepository
 {

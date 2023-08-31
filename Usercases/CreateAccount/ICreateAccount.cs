@@ -1,4 +1,3 @@
-using SimpleBank.Models;
 using SimpleBank.ViewModels;
 
 namespace SimpleBank.Usercases.CreateAccount

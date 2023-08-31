@@ -1,7 +1,6 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using SimpleBank.Constants;
-using SimpleBank.Models;
 using SimpleBank.Usercases.CreateAccount;
 using SimpleBank.Usercases.GetAccountById;
 using SimpleBank.ViewModels;

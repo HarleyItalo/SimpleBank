@@ -1,5 +1,4 @@
 using SimpleBank.Constants;
-using SimpleBank.Models;
 using SimpleBank.Repositories.AccountRepository;
 using SimpleBank.ViewModels;
 

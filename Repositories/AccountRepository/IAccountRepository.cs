@@ -1,6 +1,4 @@
 using SimpleBank.Models;
-using SimpleBank.ViewModels;
-
 namespace SimpleBank.Repositories.AccountRepository
 {
     public interface IAccountRepository
