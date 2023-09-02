@@ -19,6 +19,9 @@ namespace SimpleBank.Usercases.GetAccountById
                 return new (false,null);
             }
             var account = await _repository.GetAccountById(accountId);
+            if(account == null){
+                return new (false,null);
+            }
             return new(true, new AccountViewModel(200,Messages.REQUEST_OK,account));
         }
     }
