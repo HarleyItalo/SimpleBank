@@ -6,6 +6,7 @@ namespace SimpleBank.Models
     [PrimaryKey(nameof(AccoutId))]
     public class Account
     {
+        [JsonInclude]
         public int AccoutId;
         public string Name { get; set; }
         public string LastName { get; set; }

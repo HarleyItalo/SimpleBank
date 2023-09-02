@@ -21,7 +21,7 @@ public class AccountController : ControllerBase
 
     [HttpGet("{id}")]
     [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(BaseResponseViewModel),StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAccountByID(int id)
     {
@@ -34,7 +34,7 @@ public class AccountController : ControllerBase
 
     [HttpPost("Create")]
     [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(BaseResponseViewModel),StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(AccountViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateAccount(CreateAccountViewModel createAccount)
     {
