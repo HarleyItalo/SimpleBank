@@ -26,8 +26,9 @@ namespace SimpleBank.Usercases.CreateAccount
             var account = new Account(createAccountViewModel.Name, createAccountViewModel.LastName);
             var idAccount = await _repository.CreateAccount(account);
 
-            if (idAccount == 0 && createAccountViewModel.InitialBalance <= 0)
-                return null;
+            if (idAccount == 0 || createAccountViewModel.InitialBalance <= 0){
+               return (await _getAccountById.GetAccount(idAccount)).Item2;
+            }
 
             var result = await _createCreditTransaction.Create(
                 new TransactionViewModel
